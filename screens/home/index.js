@@ -7,7 +7,7 @@ import { Audio } from 'expo-av'
 import Slider from 'react-native-slider';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-
+import ShareComponent from '../../component/share'
 
 class PlaylistItem {
     constructor(name, uri, image) {
@@ -78,24 +78,38 @@ export default class Home extends Component {
                     switchValue: value == 'true' ? true : false
                 })
                 if (value == 'true') {
+                    this._loadNewPlaybackInstance(true).then(() => {
+                        this.setState({
+                            isPlaying: false
+                        }, () => {
+                            this._onPlayPausePressed()
+                        })
+                    })
+                } else {
                     this.setState({
                         isPlaying: true
-                    },() => {
-                        this._loadNewPlaybackInstance(true)
-                        this._onPlayPausePressed()
+                    }, () => {
+                        this._loadNewPlaybackInstance(false).then(() => {
+
+                        })
                     })
                 }
             } else {
                 this.setState({
                     isPlaying: true
-                },() => {
-                    this._loadNewPlaybackInstance(true)
-                    this._onPlayPausePressed()
+                }, () => {
+                    this._loadNewPlaybackInstance(true).then(() => {
+                        this.setState({
+                            isPlaying: false
+                        }, () => {
+                            this._onPlayPausePressed()
+                        })
+                    })
                 })
             }
         })();
 
-        this._loadNewPlaybackInstance(false);
+        // this._loadNewPlaybackInstance(true);
     }
 
     async _loadNewPlaybackInstance(playing) {
@@ -393,6 +407,10 @@ export default class Home extends Component {
                             {'Volume'}
                         </Text>
                     </View>
+                </View>
+
+                <View style={{ alignItems: 'center', paddingVertical: 20 }}>
+                    <ShareComponent />
                 </View>
             </View>
         )

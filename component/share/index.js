@@ -9,8 +9,8 @@ export default class ShareComponent extends Component {
                 title: 'ice.surf1025',
                 message: `http://ice.surf1025.com:8000/surf1025 `,
             }, {
-                dialogTitle: 'http://ice.surf1025.com:8000/surf1025'
-            });
+                    dialogTitle: 'http://ice.surf1025.com:8000/surf1025'
+                });
 
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -29,7 +29,7 @@ export default class ShareComponent extends Component {
     render() {
         return (
 
-            <TouchableOpacity onPress={this.onShare} style={styles.main} >
+            <TouchableOpacity activeOpacity={0.7} onPress={this.onShare} style={styles.main} >
                 <MaterialCommunityIcons
                     name="share-variant"
                     size={25}
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#eaf0f5',
         width: '80%',
-        height: "6%",
+        // height: "6%",
+        paddingVertical: 5,
         borderRadius: 5
 
     },

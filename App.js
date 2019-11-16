@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navigation from './navigation';
 import { StyleSheet, Text, View } from 'react-native';
 
-
+console.disableYellowBox = true
 export default class App extends Component {
 	render() {
 		return (
