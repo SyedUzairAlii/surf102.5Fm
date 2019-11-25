@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Switch, Dimensions, TouchableOpacity, AsyncStorage } from 'react-native';
 import appIcon from '../../assets/appicon.png'
+import splash from '../../assets/thumbnail.png'
 import playBtn from '../../assets/play.png'
 import pauseBtn from '../../assets/pause.png'
 import { Audio } from 'expo-av'
@@ -55,13 +56,20 @@ export default class Home extends Component {
             volume: 1.0,
             rate: 1.0,
             portrait: null,
-            switchValue: true
+            switchValue: true,
+            songName: '',
+            appLoading: true
         };
     }
 
 
 
     componentDidMount() {
+
+        this.songname()
+        // setInterval(() => {
+        //     console.log("uzair")
+        // }, 600)
         Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
             interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -80,14 +88,17 @@ export default class Home extends Component {
                 if (value == 'true') {
                     this._loadNewPlaybackInstance(true).then(() => {
                         this.setState({
-                            isPlaying: false
+                            isPlaying: false,
+                            appLoading: false
                         }, () => {
                             this._onPlayPausePressed()
+
                         })
                     })
                 } else {
                     this.setState({
-                        isPlaying: true
+                        isPlaying: true,
+                        appLoading: false
                     }, () => {
                         this._loadNewPlaybackInstance(false).then(() => {
 
@@ -218,6 +229,36 @@ export default class Home extends Component {
         }
     };
 
+    songname = () => {
+        let request = {
+            method: "GET",
+
+        };
+        fetch('http://ice.surf1025.com:8000/status-json.xsl', request)
+            .then(response => {
+                response.json()
+                    .then(response => {
+
+                        // console.log(response.icestats.source, 'ye dhekho response');
+                        response.icestats.source.map((i) => {
+                            if (i.listenurl === "http://vs35.applesources.net:8000/surf1025") {
+                                console.log(i.title, 'ye dhekho response');
+                                if (i.title !== this.state.songName) {
+                                    this.setState({
+                                        songName: i.title
+                                    })
+
+                                }
+                            }
+                        })
+                    }
+
+                    )
+            })
+            .catch(error => {
+                console.error(error, 'ye error ');
+            })
+    }
     _onVolumeSliderValueChange = value => {
         if (this.playbackInstance != null) {
             this.playbackInstance.setVolumeAsync(value);
@@ -339,7 +380,10 @@ export default class Home extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, borderWidth: 3, width: '100%', justifyContent: 'center', paddingVertical: 20 }}>
+
+
+            < View style={{ flex: 1, borderWidth: 1, width: '100%', justifyContent: 'center', paddingVertical: 20 }
+            }>
 
                 <View style={{ paddingVertical: 10, alignSelf: 'center' }}>
                     {
@@ -370,30 +414,41 @@ export default class Home extends Component {
                     </Text>
                 </View>
 
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text numberOfLines={1} style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: '#295DAA' }}>
+                        {
+                            this.state.isPlaying ?
+                                this.state.songName
+                                :
+                                null
+                        }
+                    </Text>
+                </View>
+
                 <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 20 }}>
                     <View>
                         <Switch
                             onValueChange={() => this._handleToggleSwitch()}
                             value={this.state.switchValue}
-                        // tintColor={'grey'}
+                        //  tintColor={'#295DAA'}
                         />
                     </View>
                     <View>
-                        <Text style={{ fontSize: 16, color: 'grey' }}>
+                        <Text style={{ fontSize: 19, color: 'grey' }}>
                             {'Auto play'}
                         </Text>
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 20 }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ paddingHorizontal: 7, }}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 7, }}>
+                        {/* <View style={{ paddingHorizontal: 7, }}>
                             <MaterialIcons
                                 name="volume-up"
                                 size={40}
                                 color="#56D5FA"
                             />
-                        </View>
+                        </View> */}
                         <Slider
                             style={styles.volumeSlider}
                             value={1}
@@ -402,8 +457,8 @@ export default class Home extends Component {
                             minimumTrackTintColor="#4CCFF9"
                         />
                     </View>
-                    <View style={{ alignSelf: 'center', flex: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, color: 'grey' }}>
+                    <View style={{ alignSelf: 'center', flex: 1, alignItems: 'center', alignItems: 'flex-end' }}>
+                        <Text style={{ fontSize: 19, color: 'grey' }}>
                             {'Volume'}
                         </Text>
                     </View>
@@ -412,7 +467,8 @@ export default class Home extends Component {
                 <View style={{ alignItems: 'center', paddingVertical: 20 }}>
                     <ShareComponent />
                 </View>
-            </View>
+            </View >
+
         )
     }
 }
