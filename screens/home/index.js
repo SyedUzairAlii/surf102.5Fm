@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Switch, Dimensions, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Image, Switch, Dimensions, TouchableOpacity, AsyncStorage, ActivityIndicator } from 'react-native';
 import appIcon from '../../assets/appicon.png'
 import splash from '../../assets/thumbnail.png'
 import playBtn from '../../assets/play.png'
 import pauseBtn from '../../assets/pause.png'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 import { Audio } from 'expo-av'
 import Slider from 'react-native-slider';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -35,8 +37,7 @@ const BUFFERING_STRING = 'Buffering...';
 const RATE_SCALE = 3.0;
 
 
-
-export default class Home extends Component {
+class Home extends Component {
     constructor(props) {
         super(props)
 
@@ -56,7 +57,7 @@ export default class Home extends Component {
             volume: 1.0,
             rate: 1.0,
             portrait: null,
-            switchValue: true,
+            switchValue: false,
             songName: '',
             appLoading: true
         };
@@ -65,7 +66,6 @@ export default class Home extends Component {
 
 
     componentDidMount() {
-
         this.songname()
         // setInterval(() => {
         //     console.log("uzair")
@@ -78,47 +78,47 @@ export default class Home extends Component {
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
         });
 
-        (async () => {
-            let value = await AsyncStorage.getItem('auto')
-            console.log(value, 'value')
-            if (value != null) {
-                this.setState({
-                    switchValue: value == 'true' ? true : false
-                })
-                if (value == 'true') {
-                    this._loadNewPlaybackInstance(true).then(() => {
-                        this.setState({
-                            isPlaying: false,
-                            appLoading: false
-                        }, () => {
-                            this._onPlayPausePressed()
-
-                        })
-                    })
-                } else {
+        // (async () => {
+        let value = this.props.switch
+        console.log(value, 'value')
+        if (value != null) {
+            this.setState({
+                switchValue: value == 'true' ? true : false
+            })
+            if (value == 'true') {
+                this._loadNewPlaybackInstance(true).then(() => {
                     this.setState({
-                        isPlaying: true,
+                        isPlaying: false,
                         appLoading: false
                     }, () => {
-                        this._loadNewPlaybackInstance(false).then(() => {
+                        this._onPlayPausePressed()
 
-                        })
                     })
-                }
+                })
             } else {
                 this.setState({
-                    isPlaying: true
+                    isPlaying: true,
+                    appLoading: false
                 }, () => {
-                    this._loadNewPlaybackInstance(true).then(() => {
-                        this.setState({
-                            isPlaying: false
-                        }, () => {
-                            this._onPlayPausePressed()
-                        })
+                    this._loadNewPlaybackInstance(false).then(() => {
+
                     })
                 })
             }
-        })();
+        } else {
+            this.setState({
+                isPlaying: true
+            }, () => {
+                this._loadNewPlaybackInstance(true).then(() => {
+                    this.setState({
+                        isPlaying: false
+                    }, () => {
+                        this._onPlayPausePressed()
+                    })
+                })
+            })
+        }
+        // })();
 
         // this._loadNewPlaybackInstance(true);
     }
@@ -379,6 +379,7 @@ export default class Home extends Component {
     }
 
     render() {
+        const { isLoading } = this.state
         return (
 
 
@@ -391,39 +392,49 @@ export default class Home extends Component {
                     }
                 </View>
 
-                <View style={{ paddingVertical: '5%', alignSelf: 'center' }}>
-                    <TouchableOpacity onPress={this._onPlayPausePressed} activeOpacity={0.7}>
-                        {
-                            this.state.isPlaying ?
-                                this.playPauseBtn(false)
-                                :
-                                this.playPauseBtn(true)
+                {
+                    !isLoading ?
+                        <View>
 
-                        }
-                    </TouchableOpacity>
-                </View>
+                            <View style={{ paddingVertical: '5%', alignSelf: 'center' }}>
+                                <TouchableOpacity onPress={this._onPlayPausePressed} activeOpacity={0.7}>
+                                    {
+                                        this.state.isPlaying ?
+                                            this.playPauseBtn(false)
+                                            :
+                                            this.playPauseBtn(true)
 
-                <View>
-                    <Text style={{ fontSize: 18, alignSelf: 'center', paddingVertical: 20 }}>
-                        {
-                            this.state.isPlaying ?
-                                'Current Playing'
-                                :
-                                'Stopped / Pause'
-                        }
-                    </Text>
-                </View>
+                                    }
+                                </TouchableOpacity>
+                            </View>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <Text numberOfLines={1} style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: '#295DAA' }}>
-                        {
-                            this.state.isPlaying ?
-                                this.state.songName
-                                :
-                                null
-                        }
-                    </Text>
-                </View>
+                            <View>
+                                <Text style={{ fontSize: 18, alignSelf: 'center', paddingVertical: 20 }}>
+                                    {
+                                        this.state.isPlaying ?
+                                            'Current Playing'
+                                            :
+                                            'Stopped / Pause'
+                                    }
+                                </Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text numberOfLines={1} style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: '#295DAA' }}>
+                                    {
+                                        this.state.isPlaying ?
+                                            this.state.songName
+                                            :
+                                            null
+                                    }
+                                </Text>
+                            </View>
+                        </View>
+                        :
+                        <View style={{ height: 150 }}>
+                            <ActivityIndicator size={'large'} />
+                        </View>
+                }
 
                 <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 20 }}>
                     <View>
@@ -549,3 +560,22 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
 });
+
+
+
+function mapStateToProps(state) {
+    return ({
+        switch: state.authReducers.SWITCH,
+    })
+}
+
+function mapDispatchToProps(dispatch) {
+    return ({
+        actions: bindActionCreators({
+            // getContent
+        }, dispatch)
+    })
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

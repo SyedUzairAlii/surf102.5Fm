@@ -1,18 +1,24 @@
-import actionTypes from '../Constant/Constant'
+import ActionTypes from '../Constant/Constant'
 
 const INITIAL_STATE = {
-  
+
     USER: null,
-   
+    SWITCH: false
+
 }
 
 export default (states = INITIAL_STATE, action) => {
     switch (action.type) {
-      
-        case 'USER':
+
+        case ActionTypes.USER:
             return ({
                 ...states,
                 USER: action.payload
+            })
+        case ActionTypes.SWITCH:
+            return ({
+                ...states,
+                SWITCH: action.payload
             })
         default:
             return states;
