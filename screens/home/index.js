@@ -79,44 +79,40 @@ class Home extends Component {
         });
 
         // (async () => {
-        let value = this.props.switch
-        console.log(value, 'value')
-        if (value != null) {
+        let value = JSON.parse(this.props.switch)
+        console.log(value, 'value props')
+        if (value == 'true') {
             this.setState({
-                switchValue: value == 'true' ? true : false
+                switchValue: true
             })
-            if (value == 'true') {
-                this._loadNewPlaybackInstance(true).then(() => {
-                    this.setState({
-                        isPlaying: false,
-                        appLoading: false
-                    }, () => {
-                        this._onPlayPausePressed()
+            this._loadNewPlaybackInstance(true).then(() => {
+                this.setState({
+                    isPlaying: false,
+                    appLoading: false
+                }, () => {
+                    this._onPlayPausePressed()
 
-                    })
                 })
-            } else {
+            })
+
+        } else {
+            this._loadNewPlaybackInstance(false).then(() => {
                 this.setState({
                     isPlaying: true,
                     appLoading: false
-                }, () => {
-                    this._loadNewPlaybackInstance(false).then(() => {
-
-                    })
-                })
-            }
-        } else {
-            this.setState({
-                isPlaying: true
-            }, () => {
-                this._loadNewPlaybackInstance(true).then(() => {
-                    this.setState({
-                        isPlaying: false
-                    }, () => {
-                        this._onPlayPausePressed()
-                    })
                 })
             })
+            // this.setState({
+            //     isPlaying: true
+            // }, () => {
+            //     this._loadNewPlaybackInstance(true).then(() => {
+            //         this.setState({
+            //             isPlaying: false
+            //         }, () => {
+            //             this._onPlayPausePressed()
+            //         })
+            //     })
+            // })
         }
         // })();
 
@@ -205,6 +201,7 @@ class Home extends Component {
                 this.playbackInstance.pauseAsync();
             } else {
                 this.playbackInstance.playAsync();
+                this.songname()
             }
         }
     };
