@@ -3,7 +3,7 @@ import ActionTypes from '../Constant/Constant'
 const INITIAL_STATE = {
 
     USER: null,
-    SWITCH: false
+    SWITCH: null
 
 }
 

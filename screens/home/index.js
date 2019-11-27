@@ -81,7 +81,8 @@ class Home extends Component {
         // (async () => {
         let value = JSON.parse(this.props.switch)
         console.log(value, 'value props')
-        if (value == 'true') {
+        if (value == null) {
+
             this.setState({
                 switchValue: true
             })
@@ -96,24 +97,43 @@ class Home extends Component {
             })
 
         } else {
-            this._loadNewPlaybackInstance(false).then(() => {
+
+            if (value == 'true') {
                 this.setState({
-                    isPlaying: true,
-                    appLoading: false
+                    switchValue: true
                 })
-            })
-            // this.setState({
-            //     isPlaying: true
-            // }, () => {
-            //     this._loadNewPlaybackInstance(true).then(() => {
-            //         this.setState({
-            //             isPlaying: false
-            //         }, () => {
-            //             this._onPlayPausePressed()
-            //         })
-            //     })
-            // })
+                this._loadNewPlaybackInstance(true).then(() => {
+                    this.setState({
+                        isPlaying: false,
+                        appLoading: false
+                    }, () => {
+                        this._onPlayPausePressed()
+
+                    })
+                })
+
+            } else {
+                this._loadNewPlaybackInstance(false).then(() => {
+                    this.setState({
+                        isPlaying: true,
+                        appLoading: false
+                    })
+                })
+                // this.setState({
+                //     isPlaying: true
+                // }, () => {
+                //     this._loadNewPlaybackInstance(true).then(() => {
+                //         this.setState({
+                //             isPlaying: false
+                //         }, () => {
+                //             this._onPlayPausePressed()
+                //         })
+                //     })
+                // })
+            }
+
         }
+
         // })();
 
         // this._loadNewPlaybackInstance(true);
