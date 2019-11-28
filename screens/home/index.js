@@ -35,6 +35,7 @@ const FONT_SIZE = 14;
 const LOADING_STRING = 'Loading...';
 const BUFFERING_STRING = 'Buffering...';
 const RATE_SCALE = 3.0;
+let  NameTime ;
 
 
 class Home extends Component {
@@ -67,9 +68,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.songname()
-        // setInterval(() => {
-        //     console.log("uzair")
-        // }, 600)
+        this.checkName("start")
         Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
             interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -115,7 +114,7 @@ class Home extends Component {
             } else {
                 this._loadNewPlaybackInstance(false).then(() => {
                     this.setState({
-                        isPlaying: true,
+                        isPlaying: false,
                         appLoading: false
                     })
                 })
@@ -219,8 +218,10 @@ class Home extends Component {
         if (this.playbackInstance != null) {
             if (this.state.isPlaying) {
                 this.playbackInstance.pauseAsync();
+                this.checkName("stop")
             } else {
                 this.playbackInstance.playAsync();
+                this.checkName("start")
                 this.songname()
             }
         }
@@ -245,7 +246,20 @@ class Home extends Component {
             this._updatePlaybackInstanceForIndex(this.state.shouldPlay);
         }
     };
+    checkName = (i) => {
 
+        if (i === "start") {
+            nameTime = setInterval(() => {
+                this.songname()
+                // console.log("run ")
+            }, 10000)
+
+        }
+        if (i === "stop") {
+            // console.log("clear time out")
+            clearInterval(nameTime)
+        }
+    }
     songname = () => {
         let request = {
             method: "GET",
