@@ -11,7 +11,7 @@ import Slider from 'react-native-slider';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import ShareComponent from '../../component/share'
-
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 class PlaylistItem {
     constructor(name, uri, image) {
         this.name = name;
@@ -35,7 +35,7 @@ const FONT_SIZE = 14;
 const LOADING_STRING = 'Loading...';
 const BUFFERING_STRING = 'Buffering...';
 const RATE_SCALE = 3.0;
-let  NameTime ;
+let NameTime;
 
 
 class Home extends Component {
@@ -67,6 +67,7 @@ class Home extends Component {
 
 
     componentDidMount() {
+        this._activate();
         this.songname()
         this.checkName("start")
         Audio.setAudioModeAsync({
@@ -136,6 +137,22 @@ class Home extends Component {
         // })();
 
         // this._loadNewPlaybackInstance(true);
+    }
+
+    componentWillUnmount() {
+        this._deactivate()
+        console.log("unmout run")
+    }
+    _activate = () => {
+        activateKeepAwake()
+        console.log("activate")
+
+    }
+
+    _deactivate = () => {
+        deactivateKeepAwake()
+        console.log("deactivate")
+
     }
 
     async _loadNewPlaybackInstance(playing) {
@@ -451,14 +468,15 @@ class Home extends Component {
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <Text numberOfLines={1} style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: '#295DAA' }}>
-                                    {
-                                        this.state.isPlaying ?
-                                            this.state.songName
-                                            :
-                                            null
-                                    }
-                                </Text>
+                                {
+                                    this.state.isPlaying ?
+                                        <Text numberOfLines={1} style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: '#295DAA' }}>
+                                            {this.state.songName}
+
+                                        </Text>
+                                        :
+                                        <Text style={{ fontSize: 16, alignSelf: 'center', paddingVertical: 10, paddingBottom: 10, color: 'white' }}>Text here</Text>
+                                }
                             </View>
                         </View>
                         :

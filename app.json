@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.surf.surf1025"
+    },
+    "android": {
+      "package": "com.surf.surf1025"
     },
     "description": ""
   }
