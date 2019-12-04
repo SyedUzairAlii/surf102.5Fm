@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "surf",
-    "slug": "Surf",
+    "name": "surf102_5fm",
+    "slug": "surf102_5fm",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -9,10 +9,11 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app-icon-image.png",
     "splash": {
+      "image": "./assets/app-icon-image.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
