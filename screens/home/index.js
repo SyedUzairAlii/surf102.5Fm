@@ -80,7 +80,7 @@ class Home extends Component {
 
         // (async () => {
         let value = JSON.parse(this.props.switch)
-        console.log(value, 'value props')
+        // console.log(value, 'value props')
         if (value == null) {
 
             this.setState({
@@ -141,17 +141,17 @@ class Home extends Component {
 
     componentWillUnmount() {
         this._deactivate()
-        console.log("unmout run")
+        // console.log("unmout run")
     }
     _activate = () => {
         activateKeepAwake()
-        console.log("activate")
+        // console.log("activate")
 
     }
 
     _deactivate = () => {
         deactivateKeepAwake()
-        console.log("deactivate")
+        // console.log("deactivate")
 
     }
 
@@ -290,7 +290,7 @@ class Home extends Component {
                         // console.log(response.icestats.source, 'ye dhekho response');
                         response.icestats.source.map((i) => {
                             if (i.listenurl === "http://vs35.applesources.net:8000/surf1025") {
-                                console.log(i.title, 'ye dhekho response');
+                                // console.log(i.title, 'ye dhekho response');
                                 if (i.title !== this.state.songName) {
                                     this.setState({
                                         songName: i.title

@@ -31,7 +31,7 @@ class WelcomeScreen extends Component {
         (async () => {
             const { actions, navigation } = this.props
             let value = await AsyncStorage.getItem('auto')
-            console.log(value, 'value from compon')
+            // console.log(value, 'value from compon')
             if (value) {
 
                 actions.setDataReducer('SWITCH', JSON.stringify(value)).then((response) => {
