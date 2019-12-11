@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "surf102_5fm",
+    "name": "Surf 102.5 FM",
     "slug": "surf102_5fm",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/app-icon-image.png",
     "splash": {
@@ -28,6 +28,7 @@
       "bundleIdentifier": "com.surf.surf1025"
     },
     "android": {
+      "versionCode": 2,
       "package": "com.surf.surf1025"
     },
     "description": ""
