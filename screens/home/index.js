@@ -27,7 +27,6 @@ const PLAYLIST = [
         'https://facebook.github.io/react/img/logo_og.png'
     ),
 ];
-
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFFFFF';
 const DISABLED_OPACITY = 0.5;
@@ -133,7 +132,6 @@ class Home extends Component {
             }
 
         }
-
         // })();
 
         // this._loadNewPlaybackInstance(true);
@@ -161,14 +159,12 @@ class Home extends Component {
             this.playbackInstance.setOnPlaybackStatusUpdate(null);
             this.playbackInstance = null;
         }
-
         const source = { uri: PLAYLIST[this.index].uri };
         const initialStatus = {
             shouldPlay: playing,
             rate: this.state.rate,
             volume: this.state.volume,
         };
-
         const { sound, status } = await Audio.Sound.create(
             source,
             initialStatus,
