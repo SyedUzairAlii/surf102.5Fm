@@ -27,13 +27,11 @@ class WelcomeScreen extends Component {
     }
 
     componentDidMount() {
-
         (async () => {
             const { actions, navigation } = this.props
             let value = await AsyncStorage.getItem('auto')
             // console.log(value, 'value from compon')
             if (value) {
-
                 actions.setDataReducer('SWITCH', JSON.stringify(value)).then((response) => {
                     if (response) {
                         setTimeout(() => {
@@ -41,7 +39,6 @@ class WelcomeScreen extends Component {
                         }, 1000);
                     }
                 })
-
             }
             else {
 
