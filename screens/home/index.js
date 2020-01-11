@@ -19,7 +19,6 @@ class PlaylistItem {
         this.image = image;
     }
 }
-
 const PLAYLIST = [
     new PlaylistItem(
         'Comfort Fit - “Sorry”',
