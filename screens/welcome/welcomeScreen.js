@@ -41,11 +41,9 @@ class WelcomeScreen extends Component {
                 })
             }
             else {
-
                 setTimeout(() => {
                     this.goToRoute('Home')
                 }, 1000);
-
             }
         })();
 
