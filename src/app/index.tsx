@@ -5,6 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { RadioPlayer } from '../components/RadioPlayer';
 
 export default function HomeScreen() {
   return (
@@ -22,11 +23,7 @@ export default function HomeScreen() {
           The Soundtrack of Your Life
         </Text>
 
-        <View style={styles.playerPlaceholder}>
-          <Text style={styles.playerText}>
-            Radio Player Coming Next
-          </Text>
-        </View>
+       <RadioPlayer />
       </View>
     </SafeAreaView>
   );
