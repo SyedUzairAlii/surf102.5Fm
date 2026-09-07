@@ -1,36 +1,42 @@
 {
   "expo": {
     "name": "Surf 102.5 FM",
-    "slug": "surf102_5fm",
-    "privacy": "public",
-    "sdkVersion": "35.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.2",
+    "slug": "surf-1025-fm",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-icon-image.png",
-    "splash": {
-      "image": "./assets/app-icon-image.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.surf.surf1025"
+      "bundleIdentifier": "com.syeduzairali.surf1025"
     },
     "android": {
-      "versionCode": 2,
-      "package": "com.surf.surf1025"
+      "package": "com.syeduzairali.surf1025",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app-icon-image.png",
+        "backgroundColor": "#ffffff"
+      },
+      "predictiveBackGestureEnabled": false
     },
-    "description": ""
+    "web": {
+      "output": "static",
+      "favicon": "./assets/app-icon-image.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff",
+          "image": "./assets/app-icon-image.png",
+          "imageWidth": 180,
+          "resizeMode": "contain"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
   }
 }
